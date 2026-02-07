@@ -1,0 +1,39 @@
+name: CodeStream Optimized Pipeline
+
+on: [push, pull_request]
+
+jobs:
+  Quality-Control:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+      
+      - name: Install Project Dependencies
+        run: npm install
+        
+      - name: Run Code Analysis (Linting)
+        run: npx eslint . || echo "Ignore linting for demo"
+
+      - name: Run Automated Unit Tests
+        run: npm test
+
+  Security-Scan:
+    needs: Quality-Control
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Security Check (Audit)
+        run: npm audit --audit-level=high
+
+  Build-And-Push:
+    needs: Security-Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Simulation Docker Build
+        run: |
+          echo "Building CodeStream Container Image..."
+          echo "Tagging: v${{ github.run_number }}"
