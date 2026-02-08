@@ -1,0 +1,165 @@
+{
+  "stats": {
+    "suites": 1,
+    "tests": 0,
+    "passes": 0,
+    "pending": 0,
+    "failures": 0,
+    "start": "2026-02-08T02:22:42.548Z",
+    "end": "2026-02-08T02:23:14.327Z",
+    "duration": 31779,
+    "testsRegistered": 2,
+    "passPercent": 0,
+    "pendingPercent": 0,
+    "other": 2,
+    "hasOther": true,
+    "skipped": 2,
+    "hasSkipped": true
+  },
+  "results": [
+    {
+      "uuid": "cf04175e-7aaa-486b-b186-a4d6b594e5de",
+      "title": "",
+      "fullFile": "C:\\VSCODE\\Demo CI-CD\\selenium.test.js",
+      "file": "\\selenium.test.js",
+      "beforeHooks": [],
+      "afterHooks": [],
+      "tests": [],
+      "suites": [
+        {
+          "uuid": "6788c243-f9bc-4931-9de8-9a3fbe6a83b7",
+          "title": "CodeStream UI Automation Test",
+          "fullFile": "C:\\VSCODE\\Demo CI-CD\\selenium.test.js",
+          "file": "\\selenium.test.js",
+          "beforeHooks": [
+            {
+              "title": "\"before all\" hook for \"Nên hiển thị tiêu đề Dashboard chính xác\"",
+              "fullTitle": "CodeStream UI Automation Test \"before all\" hook for \"Nên hiển thị tiêu đề Dashboard chính xác\"",
+              "timedOut": true,
+              "duration": 31763,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "// Cấu hình chạy không cửa sổ (headless) để phù hợp với CI/CD\nlet options = new chrome.Options();\noptions.addArguments('--headless'); \noptions.addArguments('--no-sandbox');\noptions.addArguments('--disable-dev-shm-usage');\ndriver = await new Builder()\n    .forBrowser('chrome')\n    .setChromeOptions(options)\n    .build();",
+              "err": {
+                "message": "Error: Timeout of 30000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (C:\\VSCODE\\Demo CI-CD\\selenium.test.js)",
+                "estack": "Error: Timeout of 30000ms exceeded. For async tests and hooks, ensure \"done()\" is called; if returning a Promise, ensure it resolves. (C:\\VSCODE\\Demo CI-CD\\selenium.test.js)\n    at listOnTimeout (node:internal/timers:605:17)\n    at process.processTimers (node:internal/timers:541:7)",
+                "diff": null
+              },
+              "uuid": "9670e5c7-5270-4199-912a-762969f71cfb",
+              "parentUUID": "6788c243-f9bc-4931-9de8-9a3fbe6a83b7",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "afterHooks": [
+            {
+              "title": "\"after all\" hook for \"Nên hiển thị bảng phân tích rủi ro\"",
+              "fullTitle": "CodeStream UI Automation Test \"after all\" hook for \"Nên hiển thị bảng phân tích rủi ro\"",
+              "timedOut": false,
+              "duration": 1,
+              "state": "failed",
+              "speed": null,
+              "pass": false,
+              "fail": true,
+              "pending": false,
+              "context": null,
+              "code": "await driver.quit();",
+              "err": {
+                "message": "TypeError: Cannot read properties of undefined (reading 'quit')",
+                "estack": "TypeError: Cannot read properties of undefined (reading 'quit')\n    at Context.<anonymous> (selenium.test.js:23:22)\n    at process.processImmediate (node:internal/timers:504:21)",
+                "diff": null
+              },
+              "uuid": "cde6dd97-fdaa-4d99-bd37-b6a4d7d04fb0",
+              "parentUUID": "6788c243-f9bc-4931-9de8-9a3fbe6a83b7",
+              "isHook": true,
+              "skipped": false
+            }
+          ],
+          "tests": [
+            {
+              "title": "Nên hiển thị tiêu đề Dashboard chính xác",
+              "fullTitle": "CodeStream UI Automation Test Nên hiển thị tiêu đề Dashboard chính xác",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "// Thay bằng link Render của bạn hoặc localhost:3000\nawait driver.get('http://localhost:3000'); \n\n// Đợi tiêu đề xuất hiện\nawait driver.wait(until.elementLocated(By.tagName('h1')), 10000);\n\nlet title = await driver.findElement(By.tagName('h1')).getText();\nconsole.log('Tiêu đề tìm thấy:', title);\n\n// Kiểm tra xem tiêu đề có chứa chữ CODESTREAM không\nassert.ok(title.includes('CODESTREAM'));",
+              "err": {},
+              "uuid": "95aac259-6ce8-48a0-b85f-ce50dec59f81",
+              "parentUUID": "6788c243-f9bc-4931-9de8-9a3fbe6a83b7",
+              "isHook": false,
+              "skipped": true
+            },
+            {
+              "title": "Nên hiển thị bảng phân tích rủi ro",
+              "fullTitle": "CodeStream UI Automation Test Nên hiển thị bảng phân tích rủi ro",
+              "timedOut": false,
+              "duration": 0,
+              "state": null,
+              "speed": null,
+              "pass": false,
+              "fail": false,
+              "pending": false,
+              "context": null,
+              "code": "let riskSection = await driver.findElement(By.xpath(\"//h3[contains(.,'PHÂN TÍCH QUẢN TRỊ RỦI RO')]\"));\nassert.ok(await riskSection.isDisplayed());",
+              "err": {},
+              "uuid": "5eb97c09-f0e5-4fa9-8556-170cdc8c8564",
+              "parentUUID": "6788c243-f9bc-4931-9de8-9a3fbe6a83b7",
+              "isHook": false,
+              "skipped": true
+            }
+          ],
+          "suites": [],
+          "passes": [],
+          "failures": [],
+          "pending": [],
+          "skipped": [
+            "95aac259-6ce8-48a0-b85f-ce50dec59f81",
+            "5eb97c09-f0e5-4fa9-8556-170cdc8c8564"
+          ],
+          "duration": 0,
+          "root": false,
+          "rootEmpty": false,
+          "_timeout": 30000
+        }
+      ],
+      "passes": [],
+      "failures": [],
+      "pending": [],
+      "skipped": [],
+      "duration": 0,
+      "root": true,
+      "rootEmpty": true,
+      "_timeout": 2000
+    }
+  ],
+  "meta": {
+    "mocha": {
+      "version": "11.7.5"
+    },
+    "mochawesome": {
+      "options": {
+        "quiet": false,
+        "reportFilename": "mochawesome",
+        "saveHtml": true,
+        "saveJson": true,
+        "consoleReporter": "spec",
+        "useInlineDiffs": false,
+        "code": true
+      },
+      "version": "7.1.4"
+    },
+    "marge": {
+      "options": null,
+      "version": "6.3.2"
+    }
+  }
+}
