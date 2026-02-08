@@ -1,39 +1,28 @@
-name: CodeStream Optimized Pipeline
+name: CodeStream Strict CI
 
 on: [push, pull_request]
 
 jobs:
-  Quality-Control:
+  Test-Logic:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Use Node.js
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
       
-      - name: Install Project Dependencies
+      - name: Install Dependencies
         run: npm install
         
-      - name: Run Code Analysis (Linting)
-        run: npx eslint . || echo "Ignore linting for demo"
+      - name: Run Unit Tests (BẮT BUỘC PHẢI PASS)
+        # Lệnh này nếu lỗi (Exit code khác 0) thì Pipeline PHẢI ĐỎ
+        run: npm test 
 
-      - name: Run Automated Unit Tests
-        run: npm test
-
-  Security-Scan:
-    needs: Quality-Control
+  Security-Check:
+    needs: Test-Logic
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Security Check (Audit)
+      - name: Audit Security
         run: npm audit --audit-level=high
-
-  Build-And-Push:
-    needs: Security-Scan
-    runs-on: ubuntu-latest
-    steps:
-      - name: Simulation Docker Build
-        run: |
-          echo "Building CodeStream Container Image..."
-          echo "Tagging: v${{ github.run_number }}"
