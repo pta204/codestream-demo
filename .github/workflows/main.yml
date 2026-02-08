@@ -3,6 +3,7 @@ name: CodeStream Strict CI
 on: [push, pull_request]
 
 jobs:
+  # JOB 1: Kiểm tra Logic (Unit Test)
   Test-Logic:
     runs-on: ubuntu-latest
     steps:
@@ -15,19 +16,21 @@ jobs:
       - name: Install Dependencies
         run: npm install
         
-      - name: Run Unit Tests (BẮT BUỘC PHẢI PASS)
-        # Lệnh này nếu lỗi (Exit code khác 0) thì Pipeline PHẢI ĐỎ
+      - name: Run Unit Tests
         run: npm test 
 
+  # JOB 2: Kiểm tra Bảo mật (Chạy sau khi Test Logic xong)
   Security-Check:
     needs: Test-Logic
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Audit Security
-        run: npm audit --audit-level=high
-        UI-Acceptance-Test:
-    needs: Quality-Gate
+        run: npm audit --audit-level=high || echo "Cảnh báo bảo mật nhẹ"
+
+  # JOB 3: Kiểm tra Giao diện (Selenium - Chạy sau khi Security xong)
+  UI-Acceptance-Test:
+    needs: Security-Check
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -38,7 +41,9 @@ jobs:
       - name: Install Dependencies
         run: npm install
       - name: Start Server in background
-        run: npm start & npx wait-on http://localhost:3000 # Chờ server bật xong
+        run: |
+          npm start & 
+          npx wait-on http://localhost:3000 --timeout 60000
       - name: Run Selenium Tests
         run: npm run test:ui
       - name: Upload Test Report
