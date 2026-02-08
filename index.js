@@ -61,7 +61,6 @@ app.get('/', (req, res) => {
                     </div>
                 </div>
 
-                <!-- Risk Board -->
                 <div class="bg-slate-900/40 border border-slate-800 rounded-3xl p-8 mb-12">
                     <h3 class="text-white text-xl font-bold mb-8 flex items-center tracking-tight">
                         <i class="fas fa-exclamation-triangle text-yellow-500 mr-3"></i> BÁO CÁO PHÂN TÍCH RỦI RO DỰ ÁN
@@ -89,14 +88,14 @@ app.get('/', (req, res) => {
                 const REPO = 'codestream-demo';
                 async function updateStatus() {
                     try {
-                        const response = await fetch(\`https://api.github.com/repos/\${OWNER}/\${REPO}/actions/runs?per_page=1\`);
+                        const response = await fetch('https://api.github.com/repos/' + OWNER + '/' + REPO + '/actions/runs?per_page=1');
                         const data = await response.json();
                         const run = data.workflow_runs[0];
                         if (!run) return;
 
                         const statusEl = document.getElementById('global-status');
                         statusEl.innerText = run.status.toUpperCase();
-                        statusEl.className = \`px-6 py-2 rounded-full border text-sm font-bold bg-slate-900 \${run.status === 'in_progress' ? 'border-yellow-500 text-yellow-500 status-running' : 'border-emerald-500 text-emerald-500'}\`;
+                        statusEl.className = 'px-6 py-2 rounded-full border text-sm font-bold bg-slate-900 ' + (run.status === 'in_progress' ? 'border-yellow-500 text-yellow-500 status-running' : 'border-emerald-500 text-emerald-500');
                         document.getElementById('commit-msg').innerText = "PUSHED: " + run.head_commit.message;
 
                         ['build', 'test', 'security', 'deploy'].forEach(step => {
@@ -130,5 +129,5 @@ app.get('/', (req, res) => {
 module.exports = { app, calculateStreamSpeed };
 
 if (process.env.NODE_ENV !== 'test') {
-    app.listen(PORT, () => console.log(\`🚀 DASHBOARD LIVE: http://localhost:\${PORT}\`));
+    app.listen(PORT, () => console.log(`🚀 DASHBOARD LIVE: http://localhost:${PORT}`));
 }
